@@ -1,27 +1,58 @@
 from django.db import models
+from enum import Enum
+
+class RiskFieldTypeEnum(Enum):
+    NUMBER = 'number'
+    TEXT = 'text'
+    CURRENCY = 'currency'
+    DATE = 'date'
 
 # Create your models here.
-
-class Risk(models.Model):
-    # name = models.CharField(max_length=255)
-    risk_type = models.ForeignKey(RiskType, related_name='risk_type')
-    field = models.ForeignKey(RiskField, related_name='risk_field')
-    value = models.CharField(max_length=255)
-
-class RiskField(models.Model):
-    risk_field = models.ForeignKey(RiskField, related_name='risk_field_type')
-    # field_type = models.CharField(max_length=255)
-    # risk = models.ForeignKey(Risk, related_name='risk_field')
-
 class RiskType(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
     # risk = models.ForeignKey(Risk, related_name='risk_type')
 
 class  RiskFieldType(models.Model):
     name = models.CharField(max_length=255)
-    field = models.CharField(choices=())
+    field = models.CharField(max_length=255,
+                choices=[(tag.name, tag.value) for tag in RiskFieldTypeEnum])
+    
+    def __str__(self):
+        return f'{self.name}'
     # risk_field = models.ForeignKey(RiskField, related_name='risk_field_type') 
+
+
+class Risk(models.Model):
+    client_name = models.CharField(max_length=255)
+    risk_type = models.ForeignKey(RiskType, 
+                related_name='risk_type', on_delete=models.SET_NULL,
+                blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.client_name} ({self.risk_type})'
+    # value = models.CharField(max_length=255)
+
+class RiskField(models.Model):
+    field_type = models.ForeignKey(RiskFieldType, 
+                related_name='risk_field_type', on_delete=models.SET_NULL,
+                blank=True, null=True)
+    risk = models.ForeignKey(Risk, 
+                related_name='field', on_delete=models.SET_NULL,
+                blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.field_type}'
+    # field_type = models.CharField(max_length=255)
+    # risk = models.ForeignKey(Risk, related_name='risk_field')
 
 class RiskValue(models.Model):
     text = models.CharField(max_length=255)
-    risk = models.ForeignKey(Risk, related_name='risk_value')
+    risk_field = models.ForeignKey(RiskField, 
+                related_name='risk_field_value', on_delete=models.SET_NULL,
+                blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.text}'
