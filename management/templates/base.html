@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://semantic-ui.com/examples/theming.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Standard Meta -->
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Insurance Management App</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/form.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/transition.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/icon.min.css' %}">
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/form.min.js' %}"></script>
+  <script src="{% static 'js/dropdown.min.js' %}"></script>
+  <script src="{% static 'js/transition.min.js' %}"></script>
+
+  <style type="text/css">
+    body > .ui.container {
+      margin-top: 3em;
+    }
+
+    .ui.container > h1 {
+      font-size: 3em;
+      text-align: center;
+      font-weight: normal;
+    }
+    .ui.container > h2.dividing.header {
+      font-size: 2em;
+      font-weight: normal;
+      margin: 4em 0em 3em;
+    }
+
+
+    .ui.table {
+      table-layout: fixed;
+    }
+  </style>
+</head>
+<body style="zoom: 1;">
+
+<div class="ui container">
+
+  <h1>Insurance Management App</h1>
+
+  <div class="ui secondary pointing menu">
+    <a class="active item">Home</a>
+    <a class="item">Messages</a>
+    <a class="item">Friends</a>
+    <div class="right menu">
+      <a class="ui item">Logout</a>
+    </div>
+  </div>
+  {% block main_content %}{% endblock main_content %}
+</div>
+<!-- </div> -->
+</body>
+<script>
+  $('select.dropdown')
+    .dropdown()
+  ;
+</script>
+</html>

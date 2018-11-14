@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main_content %}
+<div class="ui segment">
+  <!-- <div class="ui form loading"> -->
+  <div class="ui form ">
+    <div class="fields">
+      <div class="four wide field">
+        <label>Client name</label>
+        <input type="text" placeholder="First Name">
+      </div>
+      <div class="four wide field">
+        <label>Risk</label>
+        <select class="ui search dropdown">
+          <option value="">Select Risk</option>
+          <option value="VN">Viet Nam</option>
+          <option value="VG">Virgin Islands, British</option>
+          <option value="ZW">Zimbabwe</option>
+        </select>
+      </div>
+      <div class="eight wide field">
+        <div class="fields">
+          <div class="eight wide field">
+            <label>Field</label>
+            <select class="ui search dropdown">
+              <option value="">Select Field</option>
+              <option value="VN">Viet Nam</option>
+              <option value="VG">Virgin Islands, British</option>
+              <option value="ZW">Zimbabwe</option>
+            </select>
+          </div>
+          <div class="eight wide field">
+            <label>Value</label>
+            <input type="text" placeholder="Last Name">
+          </div>
+        </div>
+        <button class="mini ui basic button">
+          Add New Field
+        </button>
+      </div>
+    </div>
+    <div class="ui submit button">Submit</div>
+  </div>
+
+  <table class="ui very basic celled table full-width">
+    <thead>
+      <tr><th>Client Name</th>
+      <th>Risk Type</th>
+      <th>Risk Information</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>
+          <h4 class="ui image header">
+            <i class="user outline icon"></i>
+            <div class="content">
+              Lena
+              <!-- <div class="sub header">Human Resources
+            </div> -->
+          </div>
+        </h4></td>
+        <td>
+          Automobile
+        </td>
+        <td>
+          <div style="margin-bottom:5px">
+            <span class="ui small blue tag label">Age</span> 18<br>
+          </div>
+          <div style="margin-bottom:5px">
+            <span class="ui small blue tag label">Type</span> Another one<br>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4 class="ui image header">
+            <div class="content">
+              Matthew
+              <div class="sub header">Fabric Design
+            </div>
+          </div>
+        </h4></td>
+        <td>
+          15
+        </td>
+        <td>
+            <div style="margin-bottom:5px">
+              <span class="ui small blue tag label">Age</span> 18<br>
+            </div>
+            <div style="margin-bottom:5px">
+              <span class="ui small blue tag label">Type</span> Another one<br>
+            </div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <h4 class="ui image header">
+            <div class="content">
+              Lindsay
+              <div class="sub header">Entertainment
+            </div>
+          </div>
+        </h4></td>
+        <td>
+          12
+        </td>
+        <td>
+            <div style="margin-bottom:5px">
+              <span class="ui small blue tag label">Age</span> 18<br>
+            </div>
+            <div style="margin-bottom:5px">
+              <span class="ui small blue tag label">Type</span> Another one<br>
+            </div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <h4 class="ui image header">
+            <div class="content">
+              Mark
+              <div class="sub header">Executive
+            </div>
+          </div>
+        </h4></td>
+        <td>
+          11
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="ui placeholder segment">
+  <div class="ui two column very relaxed stackable grid">
+    <div class="column">
+      <div class="ui form">
+        <div class="field">
+          <label>Username</label>
+          <div class="ui left icon input">
+            <input type="text" placeholder="Username">
+            <i class="user icon"></i>
+          </div>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <div class="ui left icon input">
+            <input type="password">
+            <i class="lock icon"></i>
+          </div>
+        </div>
+        <div class="ui blue submit button">Login</div>
+      </div>
+    </div>
+    <div class="middle aligned column">
+      <div class="ui big button">
+        <i class="signup icon"></i>
+        Sign Up
+      </div>
+    </div>
+  </div>
+  <div class="ui vertical divider">
+    Or
+  </div>
+</div>
+{% endblock main_content %}
