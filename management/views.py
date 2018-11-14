@@ -9,6 +9,8 @@ from .serializers import RiskSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+def index(request):
+    return render(request, 'index.html', {})
 class RiskViewSet(viewsets.ViewSet):
     """
     Example empty viewset demonstrating the standard
