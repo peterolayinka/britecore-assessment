@@ -85,11 +85,22 @@ run tests by using the command
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+include all neccessary credentials like (database, hosting of static files *optional, etc)
+
+`pip install zappa`
+
+`zappa init`
+
+`zappa deploy dev`
+
+## Demo
+<https://w9ajph1iqe.execute-api.us-west-2.amazonaws.com/dev/>
 
 ## Built With
 
 * [Django](https://docs.djangoproject.com/) - The web framework used
-* [Django Rest Framework](https://www.django-rest-framework.org/) - Dependency Management
-* [Vue.js](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [AWS (S3, RDS, Lambda)](https://s3.console.aws.amazon.com/) - Hosting Platform
+* [Zappa](https://github.com/Miserlou/Zappa/) - Deploy server-less, event-driven Python applications
+* [Django Rest Framework](https://www.django-rest-framework.org/) - Web API Framework
+* [Vue.js](https://vuejs.org/) - Javascript framework
 
