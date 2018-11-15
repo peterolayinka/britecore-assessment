@@ -1,3 +1,4 @@
+from django.views import View
 from django.http import Http404
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -15,26 +16,26 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 
-def index(request):
-    risks = Risk.objects.all()
-    page = request.POST.get('page')
-    paginator = Paginator(risks, 10)
-    try:
-        risks = paginator.page(page)
-    except PageNotAnInteger:
-        risks = paginator.page(1)
-    except EmptyPage:
-        if request.is_ajax():
-            return None
-        risks = paginator.page(paginator.num_pages)
-    return render(request, 'index.html', {'risks': risks})
-    
+
+
+class MainView(View):
+    def get(self, request):
+        risks = Risk.objects.all()
+        page = request.POST.get('page')
+        paginator = Paginator(risks, 10)
+        try:
+            risks = paginator.page(page)
+        except PageNotAnInteger:
+            risks = paginator.page(1)
+        except EmptyPage:
+            if request.is_ajax():
+                return None
+            risks = paginator.page(paginator.num_pages)
+        return render(request, 'index.html', {'risks': risks})
+        # return HttpResponse('result')
+
 # @method_decorator(csrf_exempt, name='dispatch') 
 class RiskViewSet(viewsets.ViewSet):
-    # @method_decorator(csrf_exempt)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super(RiskViewSet, self).dispatch(request, *args, **kwargs)
-
     def get_queryset(self, *args, **kwargs):
         return Risk.objects.all()
 
@@ -42,12 +43,11 @@ class RiskViewSet(viewsets.ViewSet):
         serializer = RiskSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
-    # @csrf_exempt
     def create(self, request):
         post_data = request.data
         try:
             risk=Risk.objects.create(client_name=post_data['clientName'], risk_type_id=post_data['riskType'])
-            risk_field = RiskField.objects.bulk_create([RiskField(field_type_id=x.get('field'), risk=risk, value=x.get('value')) for x in post_data['fields']])
+            RiskField.objects.bulk_create([RiskField(field_type_id=x.get('field'), risk=risk, value=x.get('value')) for x in post_data['fields']])
             status = True
         except:
             status = False
