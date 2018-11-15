@@ -51,12 +51,3 @@ class RiskField(models.Model):
         return f'{self.field_type}'
     # field_type = models.CharField(max_length=255)
     # risk = models.ForeignKey(Risk, related_name='risk_field')
-
-class RiskValue(models.Model):
-    text = models.CharField(max_length=255)
-    # risk_field = models.ForeignKey(RiskField, 
-    #             related_name='risk_field_value', on_delete=models.SET_NULL,
-    #             blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.text}'
