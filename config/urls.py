@@ -24,6 +24,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'risks', views.RiskViewSet, basename="risk")
+router.register(r'risk/type', views.RiskTypeViewSet, basename="risk_type")
 # router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [

@@ -19,11 +19,11 @@ class RiskTypeAdmin(admin.ModelAdmin):
 
 @admin.register(RiskField)
 class RiskFieldAdmin(admin.ModelAdmin):
-    list_display = ('field_type',)
+    list_display = ('field_type','value')
 
-    inlines= [
-        RiskValueInline,
-    ]
+    # inlines= [
+    #     RiskValueInline,
+    # ]
 
 @admin.register(RiskFieldType)
 class RiskFieldTypeAdmin(admin.ModelAdmin):
@@ -31,4 +31,4 @@ class RiskFieldTypeAdmin(admin.ModelAdmin):
 
 @admin.register(RiskValue)
 class RiskValueAdmin(admin.ModelAdmin):
-    list_display = ('text', 'risk_field')
+    list_display = ('text',)

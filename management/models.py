@@ -4,8 +4,11 @@ from enum import Enum
 class RiskFieldTypeEnum(Enum):
     NUMBER = 'number'
     TEXT = 'text'
-    CURRENCY = 'currency'
+    EMAIL = 'email'
     DATE = 'date'
+    TEL = 'tel'
+    URL = 'url'
+    TIME = 'time'
 
 # Create your models here.
 class RiskType(models.Model):
@@ -42,6 +45,7 @@ class RiskField(models.Model):
     risk = models.ForeignKey(Risk, 
                 related_name='field', on_delete=models.SET_NULL,
                 blank=True, null=True)
+    value = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.field_type}'
@@ -50,9 +54,9 @@ class RiskField(models.Model):
 
 class RiskValue(models.Model):
     text = models.CharField(max_length=255)
-    risk_field = models.ForeignKey(RiskField, 
-                related_name='risk_field_value', on_delete=models.SET_NULL,
-                blank=True, null=True)
+    # risk_field = models.ForeignKey(RiskField, 
+    #             related_name='risk_field_value', on_delete=models.SET_NULL,
+    #             blank=True, null=True)
 
     def __str__(self):
         return f'{self.text}'

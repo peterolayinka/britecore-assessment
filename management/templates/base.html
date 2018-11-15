@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/transition.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/icon.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/divider.min.css' %}">
 
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/form.min.js' %}"></script>
@@ -51,19 +52,212 @@
 
   <div class="ui secondary pointing menu">
     <a class="active item">Home</a>
-    <a class="item">Messages</a>
-    <a class="item">Friends</a>
     <div class="right menu">
       <a class="ui item">Logout</a>
     </div>
   </div>
-  {% block main_content %}{% endblock main_content %}
+  <div id="app">
+    {% block main_content %}{% endblock main_content %}
+  </div>
 </div>
 <!-- </div> -->
-</body>
+<script src="{% static 'js/vue.min.js' %}"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+<!-- <script src="{% static 'js/vue.js' %}"></script> -->
 <script>
-  $('select.dropdown')
-    .dropdown()
-  ;
+  $(function(){
+  var app = new Vue({
+    el: '#app',
+    data: {
+      loading: false,
+      status: false,
+      selection: [],
+      clientName: "",
+      riskTypes: [],
+      fieldTypes: [],
+      riskType: '',
+      validations: {
+        fields: [],
+        clientName: {
+          is_valid: true,
+          text: '',
+        },
+      },
+    },
+    methods: {
+      addField: function(){
+        console.log('adding field')
+        this.selection.push({field:this.fieldTypes[0]?this.fieldTypes[0].id:null, value:""})
+        this.validations.fields.push({
+          value: {
+            is_valid: true,
+            text: ''
+          }
+        })
+        setTimeout(function(){
+          $('.field select').dropdown();
+        }, 1000)
+      },
+      getField: function(id){
+        var newData = this.fieldTypes.filter(function(data){
+          if (data.id === id){
+            return data.field
+          }
+        })
+        return newData[0]?
+                newData[0].field.toLowerCase():newData[0]
+      },
+      handleValidation: function(){
+        console.log('validating')
+        var counter = 0;
+        var valid = false
+        for (var index in this.selection){
+          if (this.selection.hasOwnProperty(index)){
+            // debugger
+            var fieldType = this.getField(this.selection[index].field)
+            var selectionValue = this.selection[index].value.trim();
+            var isValid = null
+            var validText = this.validations.fields[index].value.text;
+            if (fieldType === 'email'){
+              var apos=selectionValue.indexOf("@");
+              var dotpos=selectionValue.lastIndexOf(".");
+              if (apos<1||dotpos-apos<2){
+                is_valid = false;
+                validText = "Email is invalid!";
+              }else {
+                is_valid = true
+                counter++
+              }
+            }else if(fieldType === 'url'){
+              var regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+              if (regexp.test(selectionValue)){
+                is_valid = true
+                counter++
+              }else{
+                is_valid = false;
+                validText = "Url is invalid!";
+              }
+            }else if(fieldType === 'number'){
+              if(typeof(selectionValue) === 'number' || selectionValue !== ''){
+                is_valid = true
+                counter++
+              }else{
+                is_valid = false;
+                validText = "This is not a number!";
+              }
+            }else{
+              if (selectionValue === ''){
+                is_valid = false
+                validText = "This field is required!"
+              }else{
+                is_valid = true
+                counter++
+              }
+            }
+          }
+          if (this.clientName.trim() === ''){
+            this.validations.clientName.is_valid = false;
+            this.validations.clientName.text = 'You forget your client name?'
+          }else{
+            this.validations.clientName.is_valid = true;
+
+          }
+          this.validations.fields[index].value.is_valid = is_valid;
+          this.validations.fields[index].value.text = validText;
+        }
+        if (counter === this.selection.length && this.validations.clientName.is_valid){
+          valid = true
+        }
+        return valid
+      },
+      onSubmit: function() {
+        if (this.handleValidation()){
+          this.loading = true
+          var data = {clientName: this.clientName, fields: this.selection, riskType: this.riskType}
+          // result = SendToServer(url="risks", 'POST', data)
+          // $.post('/api/risks/', data, function(res){
+          //   console.log(res)
+          // })
+          var component = this
+          $.ajax({
+          url: '/api/risks/',
+          dataType: 'json',
+          type: 'post',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+          },
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          processData: true,
+          success: function( data, textStatus, jQxhr ){
+              component.loading = false
+              component.status = true
+          },
+          error: function( jqXhr, textStatus, errorThrown ){
+            component.loading = false
+            console.log( errorThrown );
+          }
+      });
+        }
+      }
+    },
+    created(){
+        this.loading=true
+        console.log('called')
+        SendToServer('risk/type', 'GET', this)
+        this.addField();
+        this.loading=false
+    },
+    delimiters: ['$[', ']$']
+  })
+  })
+  var SendToServer = function(url, method, component, data={}){
+    const csrfToken = getCookie('csrftoken');
+    const headers = new Headers({
+            // "Content-Type": "application/x-www-form-urlencoded",
+      // "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+      "X-CSRF-TOKEN": csrfToken,
+      // "csrfmiddlewaretoken": csrfToken
+    })
+    fetch(`/api/${url}/`, method === 'POST'?{
+        method: "PUT", // *GET, POST, PUT, DELETE, etc.
+        // mode: "same-origin", // no-cors, cors, *same-origin
+        // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers,
+        // redirect: "follow", // manual, *follow, error
+        // referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify(data)
+        }:{})
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(myJson) {
+          console.log(component.riskTypes)
+          var riskTypes = myJson.risk_types;
+          var fieldTypes = myJson.field_types;
+          component.riskTypes = riskTypes;
+          component.fieldTypes = fieldTypes
+          component.riskType = riskTypes[0].id;
+          component.selection[0].field = fieldTypes[0].id;
+          console.log(JSON.stringify(myJson));
+        });
+    return 
+  }
+  function getCookie(name) {
+    if (!document.cookie) {
+        return null;
+    }
+    const token = document.cookie.split(';')
+        .map(c => c.trim())
+        .filter(c => c.startsWith(name + '='));
+
+    if (token.length === 0) {
+        return null;
+    }
+    return decodeURIComponent(token[0].split('=')[1]);
+}
 </script>
+</body>
 </html>
