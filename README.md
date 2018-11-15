@@ -57,8 +57,10 @@ create as much risk field types as you want also
 ```
 
 ```
-then input risk and risk fields from the main interface <http://localhost:8000> as a normal user
+then input risk and risk fields from the main interface as a normal user
 ```
+
+`main interface` <http://localhost:8000>
 
 ```
 hmmm! are you expecting something more? Sorry! that is all.
@@ -78,9 +80,9 @@ run tests by using the command
 
 
 ### Enpoints
-1. <http:/localhost:8000/api/risk/type> [`GET`, `POST`]
+1. <http:/localhost:8000/api/risk/type/> [`GET`, `POST`]
 2. <http:/localhost:8000/api/risks/> [`GET`]
-3. <http:/localhost:8000/risks/<pk>/> [`GET`]
+3. <http:/localhost:8000/risks/&lt;pk&gt;/> [`GET`]
 
 
 ## Deployment
@@ -99,7 +101,7 @@ include all neccessary credentials like (database, hosting of static files *opti
 ## Built With
 
 * [Django](https://docs.djangoproject.com/) - The web framework used
-* [AWS (S3, RDS, Lambda)](https://s3.console.aws.amazon.com/) - Hosting Platform
+* [AWS (S3, Lambda)](https://s3.console.aws.amazon.com/) - Hosting Platform
 * [Zappa](https://github.com/Miserlou/Zappa/) - Deploy server-less, event-driven Python applications
 * [Django Rest Framework](https://www.django-rest-framework.org/) - Web API Framework
 * [Vue.js](https://vuejs.org/) - Javascript framework
