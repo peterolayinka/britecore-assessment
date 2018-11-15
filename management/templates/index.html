@@ -40,6 +40,7 @@
             <input v-else="getField(selection[key].field) === 'text'" type="text" v-model="selection[key].value">
           </div>
         </div>
+        <br>
         <button class="mini ui basic button" type="button" v-on:click="addField">
           <i class="plus circle icon"></i> New Field
         </button>
@@ -112,40 +113,6 @@
             </td>
         </tr>
       {% endfor %}
-      <!-- <tr>
-        <td>
-          <h4 class="ui image header">
-            <div class="content">
-              Lindsay
-              <div class="sub header">Entertainment
-            </div>
-          </div>
-        </h4></td>
-        <td>
-          12
-        </td>
-        <td>
-            <div style="margin-bottom:5px">
-              <span class="ui small blue tag label">Age</span> 18<br>
-            </div>
-            <div style="margin-bottom:5px">
-              <span class="ui small blue tag label">Type</span> Another one<br>
-            </div>
-          </td>
-      </tr>
-      <tr>
-        <td>
-          <h4 class="ui image header">
-            <div class="content">
-              Mark
-              <div class="sub header">Executive
-            </div>
-          </div>
-        </h4></td>
-        <td>
-          11
-        </td>
-      </tr> -->
     </tbody>
   </table>
 </div>

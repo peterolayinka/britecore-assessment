@@ -21,7 +21,7 @@ from rest_framework.exceptions import NotFound
 class MainView(View):
     def get(self, request):
         risks = Risk.objects.all()
-        page = request.POST.get('page')
+        page = request.GET.get('page')
         paginator = Paginator(risks, 10)
         try:
             risks = paginator.page(page)
@@ -32,9 +32,7 @@ class MainView(View):
                 return None
             risks = paginator.page(paginator.num_pages)
         return render(request, 'index.html', {'risks': risks})
-        # return HttpResponse('result')
 
-# @method_decorator(csrf_exempt, name='dispatch') 
 class RiskViewSet(viewsets.ViewSet):
     def get_queryset(self, *args, **kwargs):
         return Risk.objects.all()
