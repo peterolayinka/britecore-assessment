@@ -117,19 +117,35 @@
   </table>
 </div>
 
+{% if risks.paginator.num_pages  > 1%}
 <div class="ui  grid">
-    <div class="fourteen wide tablet four wide computer column centered">
-      <div class="ui pagination menu center aligned ">
-        <a class="item">
+  <div class="fourteen wide tablet four wide computer column centered">
+    <div class="ui pagination menu center aligned ">
+      {% if risks.has_previous %}
+      <a href="?page={{ risks.previous_page_number }}" class="item">
+        <i class="backward icon"></i>
+      </a>
+      {% else %}
+        <span class="disabled item">
           <i class="backward icon"></i>
+        </span>
+      {% endif %}
+
+      <a class="active item">
+          Page {{ risks.number }} of {{ risks.paginator.num_pages }}
         </a>
-        <a class="active item">
-          Page 1 of 20
-        </a>
-        <a class="item">
+
+      {% if risks.has_next %}
+      <a href="?page={{ risks.next_page_number }}" class="item">
           <i class="forward icon"></i>
         </a>
-      </div>
+      {% else %}
+      <span class="disabled item">
+        <i class="forward icon"></i>
+      </span>
+      {% endif %}
     </div>
   </div>
+</div>
+{% endif %}
 {% endblock main_content %}
