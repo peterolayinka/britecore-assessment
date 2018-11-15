@@ -1,0 +1,14 @@
+from django.test import TestCase
+
+# Create your tests here.
+
+class YourTestClass(TestCase):
+    def setUp(self):
+        # Setup run before every test method.
+        pass
+
+    def test_something_that_will_pass(self):
+        self.assertFalse(False)
+
+    def test_something_that_will_fail(self):
+        self.assertTrue(False)
